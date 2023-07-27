@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      .segment {
+        display: grid;
+        grid-template-columns: repeat(2, 0.5fr);
+      }
+
+      .segment p {
+        text-align: left;
+        padding-left: 60px;
+      }
+      input {
+        margin: 10px;
+      }
+
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40vh 30vw;
+      }
+
+      .warn-text {
+        color: red;
+      }
+
+      .center button {
+        height: 10vh;
+        width: 10vw;
+        margin: 1vh 1vw;
+        font-size: 20px;
+        background-color: rgba(0, 0, 255, 0.85);
+        color: white;
+        border: white 1px solid;
+        border-radius: 1.5vh;
+      }
+
+      .center button:hover {
+        font-weight: bold;
+        background-color: rgba(0, 0, 255, 1);
+        cursor: pointer;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function login(error_stat = "None") {
+        let err_text = "   ";
+        error_stat === "error"
+          ? (err_text = "Please fill up all of the segments correctly")
+          : {};
+        Swal.fire({
+          title: "Login",
+          text: "Hello",
+          showCancelButton: true,
+          icon: error_stat,
+          confirmButtonText: "Login",
+          html: `
+            <div class="warn-text">${err_text}</div>
+            <div class="segment">
+            <p>Username</p>
+            <input class="login-input" placeholder="Username"/></div>
+          </div><div class="segment">
+            <p>Password</p>
+            <input class="login-input" placeholder="Password" type="password"/></div>
+            <div class="segment">
+            <p>OTP</p>
+            <input  class="login-input" placeholder="OTP" maxlength="6" type="password"/></div>`,
+        }).then((x) => {
+          if (x.isConfirmed) {
+            for (const el of document.querySelectorAll(".login-input")) {
+              if (el.value.length == 0) {
+                login("error");
+              }
+            }
+          } else {
+          }
+        });
+      }
+
+      function sign_up(error_stat = "None") {
+        let err_text = "   ";
+        error_stat === "error"
+          ? (err_text = "Please fill up all of the segments correctly")
+          : {};
+        Swal.fire({
+          title: "Sign Up",
+          showCancelButton: true,
+          icon: error_stat,
+          confirmButtonText: "Sign Up",
+          html: `
+            <div class="warn-text">${err_text}</div>
+            <div class="segment">
+            <p>Username</p>
+            <input class="signup-input" placeholder="Username"/></div>
+            <div class="segment">
+            <p>Email</p>
+            <input class="signup-input" placeholder="Email Address"/></div>
+            <div class="segment">
+            <p>Password</p>
+            <input class="signup-input" placeholder="Password" type="password"/></div>
+            <div class="segment">
+            <p>Confirm Password</p>
+            <input class="signup-input" placeholder="Confirmed Password" type="password"/></div>`,
+        }).then((x) => {
+          if (x.isConfirmed) {
+            for (const el of document.querySelectorAll(".signup-input")) {
+              if (el.value.length == 0) {
+                sign_up("error");
+              }
+            }
+          } else {
+          }
+        });
+      }
+    </script>
+  </head>
+  <!--will look at swal; and mb swal2 (Swal) for capabilities on input details (textbox etc) &
+eventListeners & how they work -->
+  <body>
+    <div class="center">
+      <button onclick="login()">Login</button>
+      <button onclick="sign_up()">Sign Up</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clicker Art</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <script>
+      function pop_up() {
+        swal(
+          "Welcome to Clicker Art!",
+          `<p>As your mouse moves, so too does the colour of your square.</p>
+        <p>You can place down a square by double clicking it,<br>and can change its size using the numbers 0 - 9.</p>
+        <p>The size of the square increases from 1 to 9, reaching its largest size at number 0.<br></p>
+        <p>Don't be alarmed if the square's size doesn't change immediately,<br>simply moving the mouse should do the trick.</p>
+        <p>Place as many squares as you want to create a work of art. Clicker Art!</p>`
+        );
+      }
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+      }
+      .temp,
+      .perm {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      console.log("Hi");
+      pop_up();
+      let body = document.querySelector("body");
+      let child = 0;
+      let div_size = 50;
+      const dic = {
+        1: 10,
+        2: 20,
+        3: 30,
+        4: 40,
+        5: 50,
+        6: 60,
+        7: 70,
+        8: 80,
+        9: 90,
+        0: 100,
+      };
+      function create_circle(x, y) {
+        if (child > 0) {
+          document.querySelector(".temp").remove();
+        }
+        let new_el = document.createElement("div");
+        new_el.classList.add("temp");
+        new_el.style.position = "absolute";
+        new_el.style.left = `${x}px`;
+        new_el.style.top = `${y}px`;
+        new_el.style.width = `${div_size}px`;
+        new_el.style.height = `${div_size}px`;
+        //new_el.style.borderRadius = `${}px`;
+        let [r, g, b] = [
+          Math.ceil(Math.random() * 255),
+          Math.ceil(Math.random() * 255),
+          Math.ceil(Math.random() * 255),
+        ];
+        new_el.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        body.appendChild(new_el);
+        child++;
+      }
+      function circle(e) {
+        create_circle(e.clientX, e.clientY);
+      }
+      function place(e) {
+        let last = document.querySelector(".temp");
+        last.style.cursor = "pointer";
+        last.className = "perm";
+        child = 0;
+      }
+      function size(e) {
+        if (/[0-9]/.test(e.key)) {
+          div_size = dic[e.key];
+        }
+      }
+      body.addEventListener("keypress", size);
+      body.addEventListener("dblclick", place);
+      body.addEventListener("mousemove", circle);
+    </script>
+  </body>
+</html>
